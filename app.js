@@ -17,6 +17,9 @@ p1But.addEventListener('click', function(){
             isGameOver = true;
             p1Show.classList.add('winner');
             p2Show.classList.add('loser');
+            p1But.disabled=true;
+            p2But.disabled=true;
+
         }
         p1Show.textContent = p1Score;
         }
@@ -29,6 +32,8 @@ p2But.addEventListener('click', function(){
             isGameOver = true;
             p2Show.classList.add('winner'); // winner & loser class curently in the DOM.
             p1Show.classList.add('loser');
+            p1But.disabled=true;
+            p2But.disabled=true;
         }
         p2Show.textContent = p2Score;
         }
@@ -49,5 +54,6 @@ function reset() {
     p2Show.textContent = 0;
     p1Show.classList.remove('winner','loser');
     p2Show.classList.add('winner','loser');
-
+    p1But.disabled = false;
+    p2But.disabled = false;
 }
