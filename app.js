@@ -1,42 +1,38 @@
-const p1But = document.querySelector('#p1But');
-const p2But = document.querySelector('#p2But');
-const resetButton =document.querySelector('#reset');
-const p1Show = document.querySelector ('#p1Show');
-const p2Show = document.querySelector ('#p2Show');
+const p1 = {
+    score: 0,
+    but: document.querySelector('#p1But'),
+    show: document.querySelector('#p1Show')
+}
+const p2 = {
+    score: 0,
+    but: document.querySelector('#p2But'),
+    show: document.querySelector('#p2Show')
+}
+const resetBut = document.querySelector('#reset');
 const winningScoreSelect = document.querySelector('#playto');
-
-let p1Score = 0;
-let p2Score = 0;
 let winningScore = 7;
 let isGameOver = false;
 
-p1But.addEventListener('click', function(){
-    if(!isGameOver){    
-        p1Score += 1;
-        if(p1Score === winningScore){
+function updateScores(player, opponent){
+    if(!isGameOver) {
+        player.score +=1;
+        if(player.score === winningScore){
             isGameOver = true;
-            p1Show.classList.add('winner');
-            p2Show.classList.add('loser');
-            p1But.disabled=true;
-            p2But.disabled=true;
+            player.show.classList.add('winner');
+            opponent.show.classList.add('loser');
+            player.but.disabled = true;
+            opponent.but.disabled = true;
+        }
+        player.show.textContent = player.score;
+    }
+}
 
-        }
-        p1Show.textContent = p1Score;
-        }
+
+p1.but.addEventListener('click', function(){
+    updateScores(p1,p2)
 })
-
-p2But.addEventListener('click', function(){
-    if(!isGameOver){    
-        p2Score += 1;
-        if(p2Score === winningScore){
-            isGameOver = true;
-            p2Show.classList.add('winner'); // winner & loser class curently in the DOM.
-            p1Show.classList.add('loser');
-            p1But.disabled=true;
-            p2But.disabled=true;
-        }
-        p2Show.textContent = p2Score;
-        }
+p2.but.addEventListener('click', function(){
+    updateScores(p2, p1)
 })
 
 winningScoreSelect.addEventListener('change', function (){
@@ -44,16 +40,14 @@ winningScoreSelect.addEventListener('change', function (){
     reset();
 })
 
-resetButton.addEventListener('click', reset)
+resetBut.addEventListener('click', reset)
 
 function reset() {
     isGameOver = false;
-    p1Score = 0;
-    p2Score = 0;
-    p1Show.textContent = 0;
-    p2Show.textContent = 0;
-    p1Show.classList.remove('winner','loser');
-    p2Show.classList.add('winner','loser');
-    p1But.disabled = false;
-    p2But.disabled = false;
+    for (let p of [p1,p2]){
+        p.score=0;
+        p.show.textContent = 0;
+        p.show.classList.remove('winner','loser');
+        p.but.disabled =false;
+    }
 }
